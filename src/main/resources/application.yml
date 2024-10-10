@@ -4,7 +4,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/t1_demo"
     username: "postgres"
-    password: "0000"
+    password: "9320"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
@@ -17,3 +17,8 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+
+method:
+  execution:
+    time:
+      limit: 1000

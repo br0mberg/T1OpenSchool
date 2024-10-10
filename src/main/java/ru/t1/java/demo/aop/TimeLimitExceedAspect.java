@@ -1,0 +1,39 @@
+package ru.t1.java.demo.aop;
+
+import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import ru.t1.java.demo.model.TimeLimitExceedLog;
+import ru.t1.java.demo.repository.TimeLimitExceedLogRepository;
+
+@Component
+@Aspect
+@RequiredArgsConstructor
+public class TimeLimitExceedAspect {
+    @Value("${method.execution.time.limit}")
+    private long timeLimit;
+
+    @Autowired
+    private final TimeLimitExceedLogRepository timeLimitExceedLogRepository;
+
+    @Around("execution(* ru.t1.java.demo..*.*(..))")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable{
+        long start = System.currentTimeMillis();
+        Object proceed = joinPoint.proceed();
+        long executionTime = System.currentTimeMillis() - start;
+
+        if (executionTime > timeLimit) {
+            TimeLimitExceedLog log = new TimeLimitExceedLog();
+            log.setExecutionTime(executionTime);
+            log.setMethodSignature(joinPoint.getSignature().toString());
+
+            timeLimitExceedLogRepository.save(log);
+        }
+
+        return proceed;
+    }
+}
