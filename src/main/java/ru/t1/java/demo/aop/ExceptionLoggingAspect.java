@@ -1,19 +1,18 @@
 package ru.t1.java.demo.aop;
 
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 @Component
 @Aspect
+@RequiredArgsConstructor
 public class ExceptionLoggingAspect {
-
-    @Autowired
     private DataSourceErrorLogService errorLogService;
 
     @Pointcut("execution(* ru.t1.java.demo.*.*(..))")

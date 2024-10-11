@@ -33,8 +33,7 @@ public class TransactionServiceImpl implements JsonParseService<Transaction> {
 
     private final TransactionRepository transactionRepository;
 
-    @PostConstruct
-    void init() {
+    public void init() {
         try {
             List<Transaction> transactions = parseJson();
             transactionRepository.saveAll(transactions);

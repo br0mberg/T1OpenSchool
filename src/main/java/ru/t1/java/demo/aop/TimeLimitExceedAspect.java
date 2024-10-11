@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.TimeLimitExceedLog;
-import ru.t1.java.demo.repository.TimeLimitExceedLogRepository;
 import ru.t1.java.demo.service.TimeLimitExceedLogService;
 
 @Component
@@ -20,8 +18,8 @@ public class TimeLimitExceedAspect {
 
     private final TimeLimitExceedLogService timeLimitExceedLogService;
 
-    @Around("execution(* ru.t1.java.demo..*.*(..))")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable{
+    @Around("@annotation(ru.t1.java.demo.aop.TimeLimitExceed)")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;

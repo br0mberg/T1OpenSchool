@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements JsonParseService<Client> {
     private final ClientRepository repository;
 
-    @PostConstruct
-    void init() {
+    public void init() {
         try {
             List<Client> clients = parseJson();
             repository.saveAll(clients);

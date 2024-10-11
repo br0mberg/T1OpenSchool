@@ -29,8 +29,7 @@ public class AccountServiceImpl implements JsonParseService<Account> {
 
     private final ClientRepository clientRepository;
 
-    @PostConstruct
-    void init() {
+    public void init() {
         try {
             List<Account> accounts = parseJson();
             accountRepository.saveAll(accounts);

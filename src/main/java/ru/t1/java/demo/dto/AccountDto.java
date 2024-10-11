@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountDto implements Serializable {
     private Long id;
-    @JsonProperty("account_type")
+    @JsonProperty("type")
     private AccountType type;
     private BigDecimal balance;
     @JsonProperty("client_id")
