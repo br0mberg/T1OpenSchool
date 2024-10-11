@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.TimeLimitExceedLog;
 import ru.t1.java.demo.repository.TimeLimitExceedLogRepository;
+import ru.t1.java.demo.service.TimeLimitExceedLogService;
 
 @Component
 @Aspect
@@ -17,8 +18,7 @@ public class TimeLimitExceedAspect {
     @Value("${method.execution.time.limit}")
     private long timeLimit;
 
-    @Autowired
-    private final TimeLimitExceedLogRepository timeLimitExceedLogRepository;
+    private final TimeLimitExceedLogService timeLimitExceedLogService;
 
     @Around("execution(* ru.t1.java.demo..*.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable{
@@ -31,7 +31,7 @@ public class TimeLimitExceedAspect {
             log.setExecutionTime(executionTime);
             log.setMethodSignature(joinPoint.getSignature().toString());
 
-            timeLimitExceedLogRepository.save(log);
+            timeLimitExceedLogService.save(log);
         }
 
         return proceed;

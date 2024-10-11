@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
+import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 @Component
 @Aspect
 public class ExceptionLoggingAspect {
 
     @Autowired
-    private DataSourceErrorLogRepository errorLogRepository;
+    private DataSourceErrorLogService errorLogService;
 
     @Pointcut("execution(* ru.t1.java.demo.*.*(..))")
     public void applicationMethods() {}
@@ -25,7 +26,7 @@ public class ExceptionLoggingAspect {
         errorLog.setMessage(ex.getMessage());
         errorLog.setMethodSignature(ex.getStackTrace()[0].toString());
 
-        errorLogRepository.save(errorLog);
+        errorLogService.save(errorLog);
     }
 
     private String getStackTraceAsString(Exception ex) {

@@ -24,8 +24,4 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToOne
     @JoinColumn(name="client_id", referencedColumnName = "id", nullable = false)
     private Client client;
-
-    public enum AccountType {
-        DEBIT, CREDIT
-    }
 }
